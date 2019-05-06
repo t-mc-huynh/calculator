@@ -17,11 +17,14 @@ void writeNumber(digit *num, ofstream &file);
 void deleteNumber(digit *num);
 digit *addNumbers(digit *left, digit *right);
 digit *subNumbers(digit *left, digit *right); // optional
+void printRecursive(digit *result, ofstream &file);
 
 int main()
 {
 	ifstream inFile;
+	ofstream outFile;
 	inFile.open("largeNumbers.txt");
+	outFile.open("output.txt");
 
 	char operatorSymbol;
 
@@ -29,6 +32,9 @@ int main()
 	firstNumber = new digit;
 	secondNumber = new digit;
 
+	digit * result = new digit;
+
+	while (!inFile.eof()) {
 	// stores first and second numbers for the operation
 	firstNumber = loadNumber(inFile);
 	
@@ -42,9 +48,12 @@ int main()
 	cout << operatorSymbol << endl;
 
 	if (operatorSymbol == '+')
-		addNumbers(firstNumber, secondNumber);
-	else if (operatorSymbol == '-')
-		subNumbers(firstNumber, secondNumber);
+		result = addNumbers(firstNumber, secondNumber);
+	//else if (operatorSymbol == '-')
+		//result = subNumbers(firstNumber, secondNumber);
+
+	printRecursive(result, outFile);
+	}
 }
 
 digit *loadNumber(ifstream &file)
@@ -68,11 +77,6 @@ digit *loadNumber(ifstream &file)
 		number = head;
 	}
 
-	// while(head->next != NULL) {
-	// 	cout << head->data << "\t";
-	// 	head = head->next;
-	// }
-
 	return head;
 }
 
@@ -93,6 +97,7 @@ digit *addNumbers(digit *left, digit *right)
 {
 	digit * result = new digit;
 	digit * head;
+	digit * beginning = result;
 
 	//cout << left->data << endl;
 	while (left->next != NULL)
@@ -103,14 +108,31 @@ digit *addNumbers(digit *left, digit *right)
 		result->next = head;
 		left = left->next;
 		right = right->next;
+		result = result->next;
 	}
 
-	return result;
+	cout << endl;
+	// will leave the result ptr at the end of the array
+	// use beginning ptr instead
+	return beginning;
 }
 
 digit *subNumbers(digit *left, digit *right)
 {
 	digit * result = new digit;
 
+	// need to write
+	// take the carry into consideration
 	return result;
+}
+
+void printRecursive(digit *result, ofstream & file)
+{
+	// base case
+	if (result->next == nullptr)
+		return;
+	// writes into the file
+	file << result->data;
+	// calls the recursive function again
+	printRecursive(result->next, file);
 }
