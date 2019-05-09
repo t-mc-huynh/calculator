@@ -34,7 +34,7 @@ int main()
 
 	digit * result = new digit;
 
-	while (!inFile.eof()) {
+	//while (!inFile.eof()) {
 	// stores first and second numbers for the operation
 	firstNumber = loadNumber(inFile);
 	
@@ -53,7 +53,7 @@ int main()
 		//result = subNumbers(firstNumber, secondNumber);
 
 	printRecursive(result, outFile);
-	}
+	//}
 }
 
 digit *loadNumber(ifstream &file)
@@ -72,9 +72,11 @@ digit *loadNumber(ifstream &file)
 		head->data = int(temp - '0');
 		cout << head->data << "\t";
 		file.get(temp);
+		if (temp != '\n'){
 		head = new digit;
 		head->next = number;
 		number = head;
+		}
 	}
 
 	return head;
@@ -100,7 +102,7 @@ digit *addNumbers(digit *left, digit *right)
 	digit * beginning = result;
 
 	//cout << left->data << endl;
-	while (left->next != NULL)
+	do
 	{
 		result->data = left->data + right->data;
 		cout << result->data << "\t";
@@ -109,7 +111,7 @@ digit *addNumbers(digit *left, digit *right)
 		left = left->next;
 		right = right->next;
 		result = result->next;
-	}
+	} while(left->next != NULL);
 
 	cout << endl;
 	// will leave the result ptr at the end of the array
