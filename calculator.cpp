@@ -73,9 +73,9 @@ digit *loadNumber(ifstream &file)
 		cout << head->data << "\t";
 		file.get(temp);
 		if (temp != '\n'){
-		head = new digit;
-		head->next = number;
-		number = head;
+			head = new digit;
+			head->next = number;
+			number = head;
 		}
 	}
 
@@ -111,7 +111,7 @@ digit *addNumbers(digit *left, digit *right)
 		left = left->next;
 		right = right->next;
 		result = result->next;
-	} while(left->next != NULL);
+	} while(left != NULL);
 
 	cout << endl;
 	// will leave the result ptr at the end of the array
